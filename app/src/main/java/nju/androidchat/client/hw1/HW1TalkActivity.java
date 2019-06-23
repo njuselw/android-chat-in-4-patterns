@@ -58,9 +58,10 @@ public class HW1TalkActivity extends AppCompatActivity implements Mvp0Contract.V
                     // 增加ItemText
                     for (ClientMessage message : messages) {
                         String text = String.format("%s", message.getMessage());
+                        String str = isImage(text);
                         // 如果是自己发的，增加ItemTextSend
                         if (message.getSenderUsername().equals(this.presenter.getUsername())) {
-                            String str = isImage(text);
+
                             if (str.equals("")) {
                                 content.addView(new ItemTextSend(this, text, message.getMessageId(), this));
                             } else {
@@ -68,7 +69,12 @@ public class HW1TalkActivity extends AppCompatActivity implements Mvp0Contract.V
                             }
 
                         } else {
-                            content.addView(new ItemTextReceive(this, text, message.getMessageId()));
+                            if (str.equals("")) {
+                                content.addView(new ItemTextReceive(this, text, message.getMessageId()));
+                            } else {
+                                content.addView(new ItemImageReceive(this, str, message.getMessageId()));
+                            }
+
                         }
                     }
 

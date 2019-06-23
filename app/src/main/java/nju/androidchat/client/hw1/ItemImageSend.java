@@ -4,9 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.StyleableRes;
 
@@ -29,6 +32,7 @@ public class ItemImageSend extends LinearLayout implements View.OnLongClickListe
     int index0 = 0;
 
     private ImageView imageView;
+    private TextView textView;
     private Context context;
     private UUID messageId;
     @Setter
@@ -39,6 +43,7 @@ public class ItemImageSend extends LinearLayout implements View.OnLongClickListe
         this.context = context;
         inflate(context, R.layout.item_image_send, this);
         this.imageView = findViewById(R.id.chat_item_content_image);
+        this.textView = findViewById(R.id.chat_item_content_warning);
         this.messageId = messageId;
         this.onRecallMessageRequested = onRecallMessageRequested;
 
@@ -50,10 +55,22 @@ public class ItemImageSend extends LinearLayout implements View.OnLongClickListe
         new Thread(() -> {
             // TODO Auto-generated method stub
             final Bitmap bitmap = getBitMap(url);
-            imageView.post(() -> {
-                // TODO Auto-generated method stub
-                imageView.setImageBitmap(bitmap);
-            });
+            if (bitmap == null) {
+                imageView.post(() -> {
+                    imageView.setVisibility(View.GONE);
+                });
+                Looper.prepare();
+                Toast.makeText(context, "无效图片网址", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            } else {
+                imageView.post(() -> {
+                    // TODO Auto-generated method stub
+                    imageView.setImageBitmap(bitmap);
+                    textView.setVisibility(View.GONE);
+                });
+
+            }
+
         }).start();
     }
 
