@@ -23,8 +23,10 @@ import nju.androidchat.client.component.ItemTextReceive;
 import nju.androidchat.client.component.ItemTextSend;
 import nju.androidchat.client.component.OnRecallMessageRequested;
 
+import static nju.androidchat.client.hw1.ImageUtil.isImage;
+
 @Log
-public class Mvp0TalkActivity extends AppCompatActivity implements Mvp0Contract.View, TextView.OnEditorActionListener, OnRecallMessageRequested {
+public class HW1TalkActivity extends AppCompatActivity implements Mvp0Contract.View, TextView.OnEditorActionListener, OnRecallMessageRequested {
     private Mvp0Contract.Presenter presenter;
 
     @Override
@@ -58,7 +60,13 @@ public class Mvp0TalkActivity extends AppCompatActivity implements Mvp0Contract.
                         String text = String.format("%s", message.getMessage());
                         // 如果是自己发的，增加ItemTextSend
                         if (message.getSenderUsername().equals(this.presenter.getUsername())) {
-                            content.addView(new ItemTextSend(this, text, message.getMessageId(), this));
+                            String str = isImage(text);
+                            if (str.equals("")) {
+                                content.addView(new ItemTextSend(this, text, message.getMessageId(), this));
+                            } else {
+                                content.addView(new ItemImageSend(this, str, message.getMessageId(), this));
+                            }
+
                         } else {
                             content.addView(new ItemTextReceive(this, text, message.getMessageId()));
                         }

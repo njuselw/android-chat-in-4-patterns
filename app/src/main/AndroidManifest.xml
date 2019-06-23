@@ -4,6 +4,9 @@
     package="nju.androidchat.client">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,6 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".MainActivity"
@@ -35,6 +40,7 @@
         <activity android:name=".mvp2.Mvp2TalkActivity" />
         <activity android:name=".mvvm2.Mvvm2TalkActivity" />
         <activity android:name=".mvvm3.Mvvm3TalkActivity" />
+        <activity android:name=".hw1.HW1TalkActivity" />
 
     </application>
 
